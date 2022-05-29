@@ -1,24 +1,35 @@
 import numpy as np
-import perfplot
+from itertools import permutations, chain
 
-def main(n=0):
+
+def main(n, unique=False):
     """
     Main function
 
-    :param n: the target sum
+    :param n: the magic sum
     """
 
     print(f'sum: {n}')
-    for arr1, arr2 in generate_arrays(n):
-        grid = build_grid(n, arr1, arr2)
-        print(grid)
 
+    count = 0
+    for arr1, arr2 in generate_arrays(n):
+
+        grid = build_grid(n, arr1, arr2)
+
+        if unique:
+            solutions = []
+            if not check_if_permutation(grid, solutions):
+                solutions.append(grid)
+                count = len(solutions)
+        else:
+            count += 1
+
+    print(f'Solutions: {count}')
     return
 
 
 def generate_arrays(n):
     """Generate the arrays"""
-    solutions = 0
     # generate arr1
     for a1 in range(1, n - 1):
         for a2 in range(1, n - 1):
@@ -37,17 +48,12 @@ def generate_arrays(n):
                         b2 = n - a0 - b1
                         if b1 + a0 >= n - 1:  # this ensures that b2 > 0
                             break
-
                         # check if arr2 is valid
                         if b1 != b2 and all(b not in arr1 for b in (b1, b2)):
                             arr2 = (a0, b1, b2)
-
                             # compare arr1 and arr2 and check if they are valid together
                             if compare(arr1, arr2, n) and compare(arr2, arr1, n):
-                                solutions += 1
                                 yield arr1, arr2
-
-    print(f'Solutions: {solutions}')
     return None, None
 
 
@@ -56,6 +62,27 @@ def compare(a, b, n):
     expr1 = a[2] + b[2] - b[1]
     expr2 = n - 2 * a[2] + a[0] - b[2]
     return expr1 == expr2 and expr1 > 0
+
+
+def check_if_permutation(grid, solutions):
+    """Check if the grid is a permutation of a previous solution"""
+    for perm in get_permutations(grid):
+        for sol in solutions:
+            if np.array_equal(sol, perm):
+                return True
+    return False
+
+
+def get_permutations(grid):
+    """Get the permutations of the grid"""
+    # get the permutations of the grid
+    perms = [grid, np.rot90(grid), np.rot90(grid, 2), np.rot90(grid, 3), np.flipud(grid), np.fliplr(grid),
+             np.rot90(np.fliplr(grid)), np.rot90(np.flipud(grid))]
+    return perms
+
+def check_permutaions(grid):
+    """Check if the grid is a permutation of a previous solution"""
+
 
 def build_grid(n, arr1, arr2):
     """Build the magic square"""
@@ -77,7 +104,7 @@ def build_grid(n, arr1, arr2):
 
 
 if __name__ == "__main__":
-    main(33)
+    main(15, unique=True)
 
 
 
