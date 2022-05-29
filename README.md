@@ -37,12 +37,13 @@ Substituting the values of the missing numbers into the system of equations we g
     (4) a[1, 2] = n - a[0, 2] - (3) = n - a[1, 0] - (2) 
     (5) a[2, 1] = n - a[2, 0] - (3) = n - a[0, 1] - (2) 
 
-When we simplify equations (4) and (5) and solve for n we get:
+When we simplify equations (4) and (5) we get:
 
-    (4) 3 * a[0, 2] + 2 * a[2, 0] - a[1, 0] - a[0, 0] = n
-    (5) 3 * a[2, 0] + 2 * a[0, 2] - a[0, 1] - a[0, 0] = n
+    (4) a[0, 2] + a[2, 0] - a[1, 0] = n - 2 * a[0, 2] + a[0, 0] - a[2, 0]
+    (5) a[2, 0] + a[0, 2] - a[0, 1] = n - 2 * a[2, 0] + a[0, 0] - b[0, 2]
 
-If these are true, then the square can be filled. 
+If these are true, and they are both greater than 0, then the square can be filled. 
+
 
 # The algorithm
 The algorithm is as follows:  
@@ -61,7 +62,7 @@ If along any of these steps, any of the generated numbers break the rules of the
 
 ### Checking if the square is valid
 Finally, when we have two valid arrays that are filled with numbers,  
-we can check equations (4) and (5) and if they equal n, then we have a valid magic square.
+we can check equations (4) and (5) and if they evaluate to True, then we have a valid magic square.
 
 
 
