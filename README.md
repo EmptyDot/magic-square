@@ -40,23 +40,30 @@ Substituting the values of the missing numbers into the system of equations we g
 When we simplify equations (4) and (5) we get:
 
     (4) a[0, 2] + a[2, 0] - a[1, 0] = n - 2 * a[0, 2] + a[0, 0] - a[2, 0]
-    (5) a[2, 0] + a[0, 2] - a[0, 1] = n - 2 * a[2, 0] + a[0, 0] - b[0, 2]
+    (5) a[2, 0] + a[0, 2] - a[0, 1] = n - 2 * a[2, 0] + a[0, 0] - a[0, 2]
 
 If these are true, and they are both greater than 0, then the square can be filled. 
 
+One thing we can do to speed up the algorithm is to solve for a[2, 0] in eq. (5) which simplifies to:
+
+    a[2, 0] = 2/3 * n - a[0, 2]
+
 
 # The algorithm
-The algorithm is as follows:  
+Currently runs with **O(n^2)** time complexity.
+
 ### First array
-Generate a pair of unique numbers from 1 to n.  
-Get the missing number by subtracting the sum of the pair from n.  
-This is the array we will put in the first row.  
+Generate a number (a2) from 1 to n.  
+Get the opposing corner with: `b2 = 2/3 * n - a2`  
+Generate a number (a1) from 1 to n - a2.  
+Get the remaining number (a0) with: `a0 = n - a1 - a2`
+`[a0, a1, a2]` is the array we will put in the first row.  
 
 ### Second array
-Generate one number from 1 to n.  
 Since the first row and column share the number at a[0, 0],  
-We can use this to get the missing number in the first column by subtracting the sum of a[0, 0] and our generated number from n.  
-This is the array we will put in the first column.
+We can use this to get the missing number in the first column with: `b1 = n - a0 - b2`  
+`[a0, b1, b2]` is the array we will put in the first column. 
+
     
 If along any of these steps, any of the generated numbers break the rules of the magic square then we go to the next number in the sequence.
 
