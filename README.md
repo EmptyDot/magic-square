@@ -53,15 +53,15 @@ One thing we can do to speed up the algorithm is to solve for a[2, 0] in eq. (5)
 Currently runs with **O(n^2)** time complexity.
 
 ### First array
-Generate a number (a2) from 1 to n.  
+Generate a number (a2) from 1 to n - 2.  
 Get the opposing corner with: `b2 = 2/3 * n - a2`  
 Generate a number (a1) from 1 to n - a2.  
-Get the remaining number (a0) with: `a0 = n - a1 - a2`
+Get the remaining number (a0) with: `a0 = n - a1 - a2`  
 `[a0, a1, a2]` is the array we will put in the first row.  
 
 ### Second array
-Since the first row and column share the number at a[0, 0],  
-We can use this to get the missing number in the first column with: `b1 = n - a0 - b2`  
+Since the first row and column share the number at a[0, 0], 
+we can use this to get the missing number in the first column with: `b1 = n - a0 - b2`  
 `[a0, b1, b2]` is the array we will put in the first column. 
 
     
